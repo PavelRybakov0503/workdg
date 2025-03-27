@@ -1,0 +1,56 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Список рассылок{% endblock %}
+
+{% block content %}
+<h1>Список рассылок</h1>
+<p>В этом списке находятся все рассылки, которые были созданы вами.</p>
+
+{% if mailings %}
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Дата и время первой отправки</th>
+            <th scope="col">Дата и время последней отправки</th>
+            <th scope="col">Статус рассылки</th>
+            <th scope="col">Сообщение</th>
+            <th scope="col">Частота рассылки</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+        {% for mailing in mailings %}
+          <tr>
+            <th scope="row">{{ mailing.pk }}</th>
+            <td>{{ mailing.start_time }}</td>
+            <td>{{ mailing.end_time }}</td>
+            <td>{{ mailing.status }}</td>
+            <td>{{ mailing.message|truncatechars:100 }}</td>
+            <td>{{ mailing.frequency }}</td>
+            <td><a href="{% url 'mailapp:mailing_detail' mailing.pk %}">Подробнее</a></td>
+          </tr>
+        {% endfor %}
+
+        </tbody>
+      </table>
+
+{% else %}
+    <p>Ваш список рассылок пуст.</p>
+{% endif %}
+
+<a href="{% url 'mailapp:create_mailing' %}" class="btn btn-outline-primary">Создать рассылку</a>
+<center>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
+    {% endif %}
+    &nbsp; &nbsp;
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    &nbsp; &nbsp;
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a>
+    {% endif %}
+    </center>
+{% endblock %}

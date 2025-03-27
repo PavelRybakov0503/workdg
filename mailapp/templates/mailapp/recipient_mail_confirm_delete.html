@@ -1,0 +1,13 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Удалить получателя{% endblock %}
+
+{% block content %}
+<h1>Удалить получателя</h1>
+<form method="post">
+  {% csrf_token %}
+  <p>Вы уверены, что хотите удалить получателя с email: <strong>{{ recipient.email }}</strong>?</p>
+  <button type="submit" class="btn btn-outline-danger">Удалить</button>
+  <a href="{% url 'mailapp:recipient_detail' recipient.pk %}" class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}

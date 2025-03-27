@@ -1,0 +1,20 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="display-4 text-center">Вход</h1>
+            <form method="POST" class="form-control">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary m-3">Войти</button>
+            </form>
+            <p class="text-center">Еще не зарегистрированы? <a href="{% url 'users:register' %}">Регистрация</a></p>
+            <p class="text-center">Забыли пароль? <a href="{% url 'users:reset_password' %}">Восстановить пароль</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

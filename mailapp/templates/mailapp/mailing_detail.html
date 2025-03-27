@@ -1,0 +1,38 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Информация о рассылке{% endblock %}
+
+{% block content %}
+<h1>Информация о рассылке</h1>
+
+<div class="card">
+    <div class="card-body">
+        <p class="card-text">Дата и время первой отправки: {{ mailing.start_time }}</p>
+        <p class="card-text">Дата и время последней отправки: {{ mailing.end_time }}</p>
+        <p class="card-text">Статус рассылки: {{ mailing.status }}</p>
+        <p class="card-text">Сообщение: {{ mailing.message }}</p>
+        <p class="card-text">Частота рассылки: {{ mailing.frequency }}</p>
+        <p class="card-text">Получатели:
+            {% for recipient in recipients %}
+            {{ recipient.email }},
+            {% endfor %}
+        </p>
+        {% if mailing.status == 'Создана' and user == mailing.owner %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success">Run mailing</button>
+        </form>
+        {% elif mailing.status == 'Запущена' and user == mailing.owner or perms.can_disabling_mailing %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">Stop mailing</button>
+            </form>
+        {% endif %}
+        <a href="{% url 'mailapp:mailing_list' %}" class="btn btn-primary">К списку рассылок</a>
+        {% if user == mailing.owner %}
+        <a href="{% url 'mailapp:mailing_update' mailing.pk %}" class="btn btn-warning">Изменить данные</a>
+        <a href="{% url 'mailapp:mailing_delete' mailing.pk %}" class="btn btn-danger">Удалить рассылку</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Список получателей{% endblock %}
+
+{% block content %}
+<h1>Список получателей</h1>
+<p>В этом списке находятся все адреса электронной почты, которые были добавлены в ваш список рассылки.</p>
+
+{% if recipients %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Адрес электронной почты</th>
+            <th scope="col">Ф.И.О.</th>
+            <th scope="col">Комментарий</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for recipient in recipients %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ recipient.email }}</td>
+            <td>{{ recipient.full_name }}</td>
+            <td>{{ recipient.comment|truncatechars:50 }}</td>
+            <td><a href="{% url 'mailapp:recipient_detail' recipient.pk %}">Подробнее</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Ваш список получателей пуст.</p>
+{% endif %}
+<a href="{% url 'mailapp:recipient_create' %}" class="btn btn-outline-primary">Добавить получателя</a>
+<center>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
+    {% endif %}
+    &nbsp; &nbsp;
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    &nbsp; &nbsp;
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a>
+    {% endif %}
+</center>
+{% endblock %}
