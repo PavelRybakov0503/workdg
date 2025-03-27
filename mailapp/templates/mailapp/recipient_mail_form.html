@@ -1,0 +1,12 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Добавить получателя{% endblock %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-outline-success">Сохранить</button>
+  <a href="{% url 'mailapp:recipient_list' %} " class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}

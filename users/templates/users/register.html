@@ -1,0 +1,18 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Регистрация пользователя{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="display-4 text-center">Регистрация</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary m-3">Регистрация</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

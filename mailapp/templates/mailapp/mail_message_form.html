@@ -1,0 +1,17 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Форма сообщения{% endblock %}
+
+{% block content %}
+{% if object %}
+  <h1>Изменить сообщение</h1>
+{% else %}
+  <h1>Новое сообщение</h1>
+{% endif %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-outline-success">Сохранить</button>
+  <a href="{% url 'mailapp:mail_message_list' %} " class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}

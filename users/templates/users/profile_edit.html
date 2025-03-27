@@ -1,0 +1,19 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Редактирование профиля{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="display-4 text-center">Редактировать профиль</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary m-3">Сохранить изменения</button>
+            </form>
+            <a href="{% url 'users:profile_detail' user.pk %}" class="btn btn-secondary m-3">Назад</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
