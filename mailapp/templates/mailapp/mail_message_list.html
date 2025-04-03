@@ -1,0 +1,43 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Список сообщений{% endblock %}
+
+{% block content %}
+<h1>Список сообщений</h1>
+<p>В этом списке находятся все сообщения, которые были отправлены в вашу почтовую рассылку.</p>
+{% if messages %}
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Тема</th>
+            <th scope="col">Содержание</th>
+        </tr>
+        </thead>
+        <tbody>
+    {% for message in messages %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ message.subject }}</td>
+            <td>{{ message.body|truncatechars:50 }}</td>
+            <td><a href="{% url 'mailapp:mail_message_detail' message.pk %}">Подробнее</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% else %}
+    <p>Ваш список сообщений пуст.</p>
+{% endif %}
+<a href="{% url 'mailapp:create_message' %}" class="btn btn-outline-primary">Создать сообщение</a>
+<center>
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Предыдущая страница</a>
+    {% endif %}
+    &nbsp; &nbsp;
+    Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
+    &nbsp; &nbsp;
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Следующая страница</a>
+    {% endif %}
+</center>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Детали сообщения{% endblock %}
+
+{% block content %}
+<h1>Детали сообщения</h1>
+
+<h4>Тема: {{ message.subject }}</h4>
+<h5>Текст сообщения:</h5>
+<p>{{ message.body }}</p>
+
+
+<a href="{% url 'mailapp:mail_delete_message' message.pk %}" class="btn btn-outline-danger">Удалить сообщение</a>
+<a href="{% url 'mailapp:mail_update_message' message.pk %}" class="btn btn-outline-warning">Изменить сообщение</a>
+<a href="{% url 'mailapp:mail_message_list' %}" class="btn btn-outline-primary">Назад к списку сообщений</a>
+{% endblock %}

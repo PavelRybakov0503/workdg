@@ -1,0 +1,24 @@
+{% extends 'mailapp/base.html' %}
+{% load my_tags %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <img src="{{ user.avatar | media_filter }}" class="img-fluid rounded-start" alt="{{user.email}}">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.first_name }} {{ user.last_name }}</h5>
+                <h6>Телефон: {{ user.phone_number }} </h6>
+                <h6>Email: {{ user.email }}</h6>
+                <p>Дата регистрации: {{ user.date_joined }}</p>
+                <p>Страна: {{ user.area }}</p>
+                <a href="{% url 'users:edit_profile' user.pk %}" class="btn btn-primary mt-3">Изменить профиль</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

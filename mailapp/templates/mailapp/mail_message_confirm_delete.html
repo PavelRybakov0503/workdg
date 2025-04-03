@@ -1,0 +1,15 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Удалить сообщение{% endblock %}
+
+{% block content %}
+<h1>Удаление сообщения</h1>
+
+<p>Вы уверены, что хотите удалить сообщение с текстом: <strong>{{ message.body }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger">Удалить</button>
+    <a href="{% url 'mailapp:mail_message_detail' message.pk %} " class="btn btn-outline-secondary">Отмена</a>
+</form>
+{% endblock %}

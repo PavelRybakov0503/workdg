@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">MailApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page"
+                       href="{% url 'mailapp:recipient_list' %}">Получатели</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailapp:mailing_list' %}">Рассылки</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailapp:mail_message_list' %}">Сообщения</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mailapp:mailing_attempts' %}">Попытки отправки</a>
+                </li>
+                {% endif %}
+                {% if "users.can_view_user_list" in perms %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:user_list' %}">Пользователи</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="ms-auto">
+        {% if user.is_authenticated %}
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                {{ user.email }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'users:profile_detail' user.pk %}">Профиль</a></li>
+                <li>
+                    <form method="post" action="{% url 'users:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-danger">Выйти</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        {% else %}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <a class="btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
+            <a class="btn btn-outline-primary" href="{% url 'users:register' %}">Регистрация</a>
+        </div>
+        {% endif %}
+    </div>
+</nav>

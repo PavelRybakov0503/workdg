@@ -1,0 +1,40 @@
+{% extends 'mailapp/base.html' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+<h1>Список пользователей</h1>
+<p>В этом списке находятся все зарегистрированные пользователи в системе.</p>
+
+{% if users %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Email</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Дата регистрации</th>
+                <th scope="col">Страна</th>
+                <th scope="col">Активный</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ user.email }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>{{ user.date_joined }}</td>
+                <td>{{ user.area }}</td>
+                <td>{{ user.is_active|yesno:"Да,Нет" }}</td>
+                <td><a href="{% url 'users:profile_detail' user.pk %}">Подробнее</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+{% else %}
+    <p>В системе нет зарегистрированных пользователей.</p>
+{% endif %}
+{% endblock %}
